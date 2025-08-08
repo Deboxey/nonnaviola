@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Nonna Viola - Selezione Menu</title>
+  <link rel="stylesheet" href="css/selezione.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+  <style>
+    :root {
+      --main-bg: #1d2e53;
+      --section-bg: #232b3a;
+      --section-hover: #283358;
+      --accent: #fff;
+      --accent-light: rgba(255,255,255,0.08);
+      --border: rgba(255,255,255,0.14);
+      --text: #fff;
+      --shadow: 0 2px 12px 0 rgba(0,0,0,0.12);
+      --radius: 2.5vw;
+    }
+    body, html {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', Arial, sans-serif;
+      background: var(--main-bg);
+      color: var(--text);
+      width: 100vw;
+      min-height: 100vh;
+      overflow-x: hidden;
+      overflow-y: auto;
+    }
+    .sections-container {
+      display: flex;
+      flex-direction: column;
+      width: 100vw;
+      min-height: 100vh;
+      gap: 3vw;
+      padding: 6vw 0 0 0;
+      box-sizing: border-box;
+      justify-content: center;
+      align-items: center;
+    }
+    .section {
+      position: relative;
+      width: 87vw;
+      min-height: 22vw;
+      max-width: 500px;
+      border-radius: var(--radius);
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: box-shadow 0.2s, transform 0.14s, background 0.18s;
+      box-shadow: var(--shadow);
+      background: var(--section-bg);
+      opacity: 0;
+      animation: fadeIn 1s forwards;
+      margin-bottom: 0;
+      border: 1px solid var(--border);
+    }
+    .section-bg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: 1;
+      opacity: 0.18;
+      filter: grayscale(0.5) blur(0.5px);
+      transition: filter 0.3s, opacity 0.2s;
+      pointer-events: none;
+    }
+    .section:hover, .section:focus {
+      box-shadow: 0 4px 22px 0 rgba(0,0,0,0.16);
+      background: var(--section-hover);
+      transform: translateY(-2px) scale(1.01);
+    }
+    .section:hover .section-bg,
+    .section:focus .section-bg {
+      filter: grayscale(0.2) blur(0.5px);
+      opacity: 0.22;
+    }
+    .section-content {
+      position: relative;
+      z-index: 2;
+      color: var(--text);
+      padding: 1.3vw 2vw;
+      font-size: 2vw;
+      font-weight: 500;
+      letter-spacing: 1.5px;
+      max-width: 80vw;
+      line-height: 1.16;
+      text-align: center;
+      background: transparent;
+      border-radius: 1vw;
+      box-shadow: none;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1vw;
+    }
+    .section-content i {
+      font-size: 1em;
+      opacity: 0.7;
+      transition: color 0.18s;
+      color: var(--text);
+    }
+    a.section {
+      text-decoration: none;
+    }
+    .back-btn {
+      position: fixed;
+      top: 16px;
+      left: 18px;
+      width: 43px;
+      height: 43px;
+      background: var(--accent-light);
+      border: 1.3px solid var(--border);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--accent);
+      font-size: 1.5em;
+      cursor: pointer;
+      z-index: 200;
+      transition: background 0.2s, border 0.2s, color 0.2s;
+      backdrop-filter: blur(1.5px);
+      text-decoration: none;
+    }
+    .back-btn:hover, .back-btn:focus {
+      border-color: var(--main-bg);
+      color: var(--main-bg);
+      background: #fff;
+      outline: none;
+    }
+    .coperto-section {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 7vw;
+      margin-bottom: 3vw;
+      width: 100vw;
+    }
+    .coperto-card {
+      background: var(--section-bg);
+      color: var(--text);
+      border-radius: 2vw;
+      padding: 1.5vw 3vw;
+      font-size: 1.7vw;
+      font-weight: 450;
+      letter-spacing: 1px;
+      box-shadow: var(--shadow);
+      border: 1px solid var(--border);
+      opacity: 0.95;
+      transition: box-shadow 0.2s, background 0.18s;
+      max-width: 350px;
+      min-width: 120px;
+      text-align: center;
+    }
+    .coperto-card span {
+      font-size: 1.2em;
+      font-weight: 600;
+      margin-left: 0.5vw;
+      opacity: 0.8;
+    }
+    @media (max-width: 600px) {
+      .sections-container {
+        gap: 6vw;
+        padding: 17vw 0 0 0;
+      }
+      .section {
+        min-height: 38vw;
+        max-width: 96vw;
+        width: 96vw;
+        border-radius: 6vw;
+      }
+      .section-content {
+        font-size: 5vw;
+        padding: 4vw 5vw;
+        border-radius: 3vw;
+      }
+      .back-btn {
+        font-size: 1.17em;
+        top: 9px;
+        left: 9px;
+        width: 34px;
+        height: 34px;
+      }
+      .coperto-card {
+        padding: 3.5vw 7vw;
+        font-size: 4vw;
+        border-radius: 5vw;
+        max-width: 85vw;
+      }
+    }
+    .section:nth-child(1) { animation-delay: 0.1s; }
+    .section:nth-child(2) { animation-delay: 0.3s; }
+    .section:nth-child(3) { animation-delay: 0.5s; }
+    @keyframes fadeIn {
+      to { opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+  <a href="home.html" class="back-btn" title="Torna indietro">
+    <i class="fa-solid fa-chevron-left"></i>
+  </a>
+  <div class="sections-container">
+    <a href="pizze.html" class="section">
+      <img class="section-bg" src="https://images.pexels.com/photos/28509915/pexels-photo-28509915.jpeg" alt="Pizzeria">
+      <div class="section-content">
+        <span data-i18n="pizzeria">PIZZERIA</span>
+        <i class="fa-solid fa-arrow-right"></i>
+      </div>
+    </a>
+    <a href="primi.html" class="section">
+      <img class="section-bg" src="img/risto.jpg" alt="Ristorante">
+      <div class="section-content">
+        <span data-i18n="ristorante">RISTORANTE</span>
+        <i class="fa-solid fa-arrow-right"></i>
+      </div>
+    </a>
+    <a href="beverage.html" class="section">
+      <img class="section-bg" src="img/beverage.jpg" alt="Beverage">
+      <div class="section-content">
+        <span data-i18n="beverage">BEVERAGE</span>
+        <i class="fa-solid fa-arrow-right"></i>
+      </div>
+    </a>
+  </div>
+  <div class="coperto-section">
+    <div class="coperto-card">
+      <span data-i18n="coperto">COPERTO</span> <span>2&nbsp;€</span>
+    </div>
+  </div>
+  <script>
+    // Traduzioni ITA/ENG
+    const translations = {
+      it: {
+        pizzeria: "PIZZERIA",
+        ristorante: "RISTORANTE",
+        beverage: "BEVERAGE",
+        coperto: "COPERTO"
+      },
+      en: {
+        pizzeria: "PIZZERIA",
+        ristorante: "RESTAURANT",
+        beverage: "DRINKS",
+        coperto: "COVER CHARGE"
+      }
+    };
+    // Recupera lingua selezionata (default: it)
+    const lang = localStorage.getItem('lang') || 'it';
+    // Applica traduzioni agli elementi con data-i18n
+    document.addEventListener("DOMContentLoaded", function() {
+      document.querySelectorAll("[data-i18n]").forEach(el => {
+        const key = el.getAttribute("data-i18n");
+        if (translations[lang][key]) {
+          el.textContent = translations[lang][key];
+        }
+      });
+    });
+  </script>
+</body>
+</html>

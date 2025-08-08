@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Seleziona Lingua</title>
+  <link rel="stylesheet" href="css/language-selector.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"/>
+  <style>
+    body {
+      margin: 0;
+      font-family: system-ui, sans-serif;
+      background: #f7f9fd;
+      min-height: 100vh;
+    }
+    .lang-page {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 0 16px;
+    }
+    .logo {
+      width: 240px;
+      max-width: 90vw;
+      height: auto;
+      margin-bottom: 46px;
+      margin-top: 30px;
+      border-radius: 0;
+      box-shadow: none;
+      background: none;
+      display: block;
+    }
+    .storia-titolo-wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      margin-bottom: 36px;
+    }
+    .storia-barra {
+      flex: 1;
+      height: 2px;
+      background: #1d2e53;
+      opacity: 0.13;
+      border-radius: 1px;
+      min-width: 30px;
+    }
+    .storia-titolo {
+      font-size: 2.1rem;
+      font-weight: 700;
+      color: #1d2e53;
+      margin: 0;
+      letter-spacing: 1px;
+      text-align: center;
+      text-transform: uppercase;
+    }
+    .buttons {
+      display: flex;
+      gap: 28px;
+      margin-top: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .lang-btn {
+      background: #fff;
+      color: #1d2e53;
+      border: 1.5px solid #1d2e53;
+      padding: 14px 44px;
+      border-radius: 32px;
+      font-weight: 700;
+      font-size: 1.13rem;
+      letter-spacing: 0.6px;
+      cursor: pointer;
+      transition: 0.2s;
+      box-shadow: 0 4px 14px rgba(30,40,90,0.08);
+      outline: none;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .lang-btn.active,
+    .lang-btn:hover {
+      background: #1d2e53;
+      color: #fff;
+      transform: scale(1.06);
+      border-color: #e64764;
+    }
+    .lang-btn i {
+      font-size: 1.3em;
+    }
+    @media (max-width: 600px) {
+      .logo { width: 60vw; min-width: 120px; margin-bottom: 28px; }
+      .storia-titolo { font-size: 1.27rem; }
+      .buttons { gap: 14px; }
+      .lang-btn { padding: 11px 25px; font-size: 1.01rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="lang-page">
+    <img src="img/logo.png" alt="Logo" class="logo" />
+    <div class="storia-titolo-wrapper">
+      <div class="storia-barra"></div>
+      <h1 class="storia-titolo">SELEZIONA LINGUA</h1>
+      <div class="storia-barra"></div>
+    </div>
+    <div class="buttons">
+      <button class="lang-btn" onclick="selectLanguage('it')">
+        <i class="fa-solid fa-flag"></i> ITA
+      </button>
+      <button class="lang-btn" onclick="selectLanguage('en')">
+        <i class="fa-solid fa-globe"></i> ENG
+      </button>
+    </div>
+  </div>
+
+  <script>
+    // Evidenzia il tasto della lingua già scelta
+    document.addEventListener('DOMContentLoaded', function() {
+      const selectedLang = localStorage.getItem('lang') || 'it';
+      document.querySelectorAll('.lang-btn').forEach(btn => {
+        if (
+          (btn.textContent.includes('ITA') && selectedLang === 'it') ||
+          (btn.textContent.includes('ENG') && selectedLang === 'en')
+        ) {
+          btn.classList.add('active');
+        }
+      });
+    });
+    function selectLanguage(lang) {
+      localStorage.setItem('lang', lang);
+      window.location.href = 'home.html'; // Reindirizza alla home del sito
+    }
+  </script>
+</body>
+</html>

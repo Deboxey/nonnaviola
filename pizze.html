@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nonna Viola - Pizze</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+  <style>
+    body {
+      margin: 0;
+      font-family: system-ui, sans-serif;
+      background: #f7f9fd;
+    }
+    .menu-page {
+      padding: 40px 0;
+    }
+    .menu-container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 16px;
+    }
+    .storia-titolo-wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      margin-bottom: 36px;
+    }
+    .storia-barra {
+      flex: 1;
+      height: 2px;
+      background: #1d2e53;
+      opacity: 0.13;
+      border-radius: 1px;
+      min-width: 30px;
+    }
+    .storia-titolo {
+      font-size: 2.1rem;
+      font-weight: 700;
+      color: #1d2e53;
+      margin: 0;
+      letter-spacing: 1px;
+      text-align: center;
+    }
+    .filtri {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      margin-bottom: 36px;
+      flex-wrap: wrap;
+    }
+    .filtro-btn {
+      background: #fff;
+      color: #1d2e53;
+      border: 1.5px solid #1d2e53;
+      padding: 10px 22px;
+      border-radius: 24px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.2s;
+      font-size: 1.01rem;
+      letter-spacing: 0.5px;
+      outline: none;
+    }
+    .filtro-btn.active,
+    .filtro-btn:hover {
+      background: #1d2e53;
+      color: #fff;
+      transform: scale(1.05);
+    }
+    .menu-lista {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 22px;
+    }
+    @media (min-width: 700px) {
+      .menu-lista {
+        grid-template-columns: 1fr 1fr;
+        gap: 28px;
+      }
+    }
+    .menu-item {
+      background: #fff;
+      border: 1.5px solid #1d2e53;
+      border-radius: 16px;
+      box-shadow: 0 6px 24px rgba(30, 30, 80, 0.06);
+      transition: 0.22s;
+      position: relative;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      height: 240px;
+      min-height: 240px;
+      max-height: 240px;
+      justify-content: flex-start;
+      overflow: hidden;
+    }
+    .menu-item:hover {
+      transform: translateY(-4px) scale(1.012);
+      box-shadow: 0 12px 36px rgba(30,40,90,0.10);
+      border-color: #27409c;
+    }
+    .menu-badge {
+      position: absolute;
+      top: 18px;
+      right: 18px;
+      background: #1d2e53;
+      color: #fff;
+      padding: 6px 16px;
+      border-radius: 18px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      opacity: 0.85;
+      z-index: 2;
+      white-space: nowrap;
+    }
+    .menu-item-content {
+      padding: 70px 28px 28px 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      align-items: flex-start;
+      justify-content: flex-start;
+      flex: 1 1 auto;
+      overflow: hidden;
+    }
+    .menu-nome {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: #1d2e53;
+      letter-spacing: 0.2px;
+      margin-bottom: 2px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      width: 100%;
+    }
+    .menu-prezzi {
+      display: flex;
+      gap: 24px;
+      margin-top: 0;
+      margin-bottom: 0;
+    }
+    .prezzo-badge {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      font-size: 0.95rem;
+    }
+    .prezzo-label {
+      font-size: 0.8rem;
+      color: #1d2e53;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      line-height: 1.1;
+      margin-bottom: 2px;
+    }
+    .prezzo-val {
+      font-size: 1.09rem;
+      font-weight: 600;
+      color: #e64764;
+      margin-top: 0;
+      letter-spacing: 0.2px;
+      line-height: 1.1;
+    }
+    .menu-descrizione {
+      margin-top: 2px;
+      color: #3b4264;
+      font-size: 0.98rem;
+      opacity: 0.93;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      max-width: 100%;
+    }
+    .back-btn {
+      position: fixed;
+      top: 22px;
+      left: 22px;
+      width: 44px;
+      height: 44px;
+      background: rgba(255,255,255,0.10);
+      border: 1.5px solid #1d2e53;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #1d2e53;
+      font-size: 1.3em;
+      cursor: pointer;
+      z-index: 200;
+      transition: background 0.18s, border 0.18s, color 0.18s;
+      backdrop-filter: blur(1.5px);
+      text-decoration: none;
+    }
+    .back-btn:hover, .back-btn:focus {
+      border-color: #e64764;
+      color: #e64764;
+      background: #fff;
+      outline: none;
+    }
+    @media (max-width: 600px) {
+      .menu-page {
+        padding: 17vw 0 8vw 0;
+      }
+      .menu-container {
+        padding: 0 5vw;
+      }
+      .menu-item-content {
+        padding: 50px 15px 16px 15px;
+      }
+      .menu-item {
+        height: 180px;
+        min-height: 180px;
+        max-height: 180px;
+      }
+      .menu-nome { font-size: 1.07rem; }
+      .menu-descrizione { font-size: 0.93rem; }
+      .back-btn {
+        top: 10px; left: 10px; width: 32px; height: 32px; font-size: 1em;
+      }
+      .menu-badge {
+        font-size: 0.73rem; padding: 5px 8px; border-radius: 12px; top: 10px;
+      }
+      .menu-prezzi { gap: 14px; }
+      .prezzo-label { font-size: 0.74rem; }
+      .prezzo-val { font-size: 1.01rem; }
+    }
+  </style>
+</head>
+<body>
+  <a href="selezione.html" class="back-btn" title="Torna indietro">
+    <i class="fa-solid fa-chevron-left"></i>
+  </a>
+  <div class="menu-page">
+    <div class="menu-container">
+      <div class="storia-titolo-wrapper">
+        <div class="storia-barra"></div>
+        <h1 class="storia-titolo" data-i18n="title">LE NOSTRE PIZZE</h1>
+        <div class="storia-barra"></div>
+      </div>
+      <div class="filtri">
+        <button class="filtro-btn active" data-tipo="tutte" data-i18n="filter_all">Tutte</button>
+        <button class="filtro-btn" data-tipo="rosse" data-i18n="filter_rosse">Rosse</button>
+        <button class="filtro-btn" data-tipo="bianche" data-i18n="filter_bianche">Bianche</button>
+        <button class="filtro-btn" data-tipo="speciali" data-i18n="filter_speciali">Speciali</button>
+      </div>
+      <div class="menu-lista" id="menu-lista"></div>
+    </div>
+  </div>
+  <script>
+    // Traduzioni IT/EN - aggiunte tutte le descrizioni
+    const translations = {
+      it: {
+        title: "LE NOSTRE PIZZE",
+        filter_all: "Tutte",
+        filter_rosse: "Rosse",
+        filter_bianche: "Bianche",
+        filter_speciali: "Speciali",
+        badge_rosse: "ROSSA",
+        badge_bianche: "BIANCA",
+        badge_speciali: "SPECIALE",
+        prezzo_singola: "Singola",
+        prezzo_mezzo: "1/2 Metro",
+        // descrizioni pizze (IT)
+        "Pomodoro, mozzarella, basilico": "Pomodoro, mozzarella, basilico",
+        "Pomodoro, aglio, origano, olive, acciughe": "Pomodoro, aglio, origano, olive, acciughe",
+        "Pomodoro, aglio, origano, olive nere": "Pomodoro, aglio, origano, olive nere",
+        "Pomodoro, mozzarella, origano, acciughe": "Pomodoro, mozzarella, origano, acciughe",
+        "Pomodoro, mozzarella, prosciutto cotto, funghi, salsiccia": "Pomodoro, mozzarella, prosciutto cotto, funghi, salsiccia",
+        "Pomodoro, mozzarella, salame piccante": "Pomodoro, mozzarella, salame piccante",
+        "Pomodoro, mozzarella, prosciutto cotto, salame": "Pomodoro, mozzarella, prosciutto cotto, salame",
+        "Pomodoro, mozzarella, fagioli, salsiccia, pancetta, piccante": "Pomodoro, mozzarella, fagioli, salsiccia, pancetta, piccante",
+        "Pomodoro, mozzarella, melanzane, salsiccia, scaglie": "Pomodoro, mozzarella, melanzane, salsiccia, scaglie",
+        "Mozzarella, pomodori di San Marzano, pesto": "Mozzarella, pomodori di San Marzano, pesto",
+        "Mozzarella, pomodorini, rucola, crudo, scaglie di parmigiano": "Mozzarella, pomodorini, rucola, crudo, scaglie di parmigiano",
+        "Mozzarella, salsiccia, crocchè": "Mozzarella, salsiccia, crocchè",
+        "Mozzarella, funghi porcini, speck, scaglie di parmigiano": "Mozzarella, funghi porcini, speck, scaglie di parmigiano",
+        "Mozzarella, salsiccia, uovo": "Mozzarella, salsiccia, uovo",
+        "Provola, mortadella, crema e granella di noci, crema e granella di pistacchio": "Provola, mortadella, crema e granella di noci, crema e granella di pistacchio",
+        "Mozzarella, porchetta, pancetta, funghi, patate al forno": "Mozzarella, porchetta, pancetta, funghi, patate al forno",
+        "Mozzarella, mascarpone, radicchio": "Mozzarella, mascarpone, radicchio",
+        "Provola, rucola, speck, crema e granella di noci": "Provola, rucola, speck, crema e granella di noci",
+        "Mozzarella, mascarpone, fiori di zucca": "Mozzarella, mascarpone, fiori di zucca",
+        "Mozzarella, panna, mais e prosciutto cotto": "Mozzarella, panna, mais e prosciutto cotto",
+        "Mozzarella, melanzane, zucchine e peperoni": "Mozzarella, melanzane, zucchine e peperoni",
+        "Mozzarella, fiori di ricotta, granella e crema di pistacchi, limone grattugiato": "Mozzarella, fiori di ricotta, granella e crema di pistacchi, limone grattugiato",
+        "Mozzarella, fior di ricotta, granella di pistacchio, glassa al balsamico": "Mozzarella, fior di ricotta, granella di pistacchio, glassa al balsamico",
+        "Mozzarella, fior di ricotta, mortadella, crema e granella di pistacchio": "Mozzarella, fior di ricotta, mortadella, crema e granella di pistacchio",
+        "Mozzarella, zucca, salsiccia, pancetta, panna": "Mozzarella, zucca, salsiccia, pancetta, panna",
+        "Mozzarella, zucchine, salsiccia, pancetta, panna": "Mozzarella, zucchine, salsiccia, pancetta, panna",
+        "Mozzarella, scarola condita con olive nere e pomodorini, bufala": "Mozzarella, scarola condita con olive nere e pomodorini, bufala"
+      },
+      en: {
+        title: "OUR PIZZAS",
+        filter_all: "All",
+        filter_rosse: "Red",
+        filter_bianche: "White",
+        filter_speciali: "Specials",
+        badge_rosse: "RED",
+        badge_bianche: "WHITE",
+        badge_speciali: "SPECIAL",
+        prezzo_singola: "Single",
+        prezzo_mezzo: "1/2 Meter",
+        // descrizioni pizze (EN)
+        "Pomodoro, mozzarella, basilico": "Tomato, mozzarella, basil",
+        "Pomodoro, aglio, origano, olive, acciughe": "Tomato, garlic, oregano, olives, anchovies",
+        "Pomodoro, aglio, origano, olive nere": "Tomato, garlic, oregano, black olives",
+        "Pomodoro, mozzarella, origano, acciughe": "Tomato, mozzarella, oregano, anchovies",
+        "Pomodoro, mozzarella, prosciutto cotto, funghi, salsiccia": "Tomato, mozzarella, cooked ham, mushrooms, sausage",
+        "Pomodoro, mozzarella, salame piccante": "Tomato, mozzarella, spicy salami",
+        "Pomodoro, mozzarella, prosciutto cotto, salame": "Tomato, mozzarella, cooked ham, salami",
+        "Pomodoro, mozzarella, fagioli, salsiccia, pancetta, piccante": "Tomato, mozzarella, beans, sausage, bacon, spicy",
+        "Pomodoro, mozzarella, melanzane, salsiccia, scaglie": "Tomato, mozzarella, eggplant, sausage, flakes",
+        "Mozzarella, pomodori di San Marzano, pesto": "Mozzarella, San Marzano tomatoes, pesto",
+        "Mozzarella, pomodorini, rucola, crudo, scaglie di parmigiano": "Mozzarella, cherry tomatoes, rocket, cured ham, parmesan flakes",
+        "Mozzarella, salsiccia, crocchè": "Mozzarella, sausage, potato croquette",
+        "Mozzarella, funghi porcini, speck, scaglie di parmigiano": "Mozzarella, porcini mushrooms, speck, parmesan flakes",
+        "Mozzarella, salsiccia, uovo": "Mozzarella, sausage, egg",
+        "Provola, mortadella, crema e granella di noci, crema e granella di pistacchio": "Provola, mortadella, walnut cream and grains, pistachio cream and grains",
+        "Mozzarella, porchetta, pancetta, funghi, patate al forno": "Mozzarella, porchetta, bacon, mushrooms, baked potatoes",
+        "Mozzarella, mascarpone, radicchio": "Mozzarella, mascarpone, radicchio",
+        "Provola, rucola, speck, crema e granella di noci": "Provola, rocket, speck, walnut cream and grains",
+        "Mozzarella, mascarpone, fiori di zucca": "Mozzarella, mascarpone, zucchini flowers",
+        "Mozzarella, panna, mais e prosciutto cotto": "Mozzarella, cream, corn, cooked ham",
+        "Mozzarella, melanzane, zucchine e peperoni": "Mozzarella, eggplant, zucchini, peppers",
+        "Mozzarella, fiori di ricotta, granella e crema di pistacchi, limone grattugiato": "Mozzarella, ricotta flowers, pistachio grains and cream, grated lemon",
+        "Mozzarella, fior di ricotta, granella di pistacchio, glassa al balsamico": "Mozzarella, ricotta, pistachio grains, balsamic glaze",
+        "Mozzarella, fior di ricotta, mortadella, crema e granella di pistacchio": "Mozzarella, ricotta, mortadella, pistachio cream and grains",
+        "Mozzarella, zucca, salsiccia, pancetta, panna": "Mozzarella, pumpkin, sausage, bacon, cream",
+        "Mozzarella, zucchine, salsiccia, pancetta, panna": "Mozzarella, zucchini, sausage, bacon, cream",
+        "Mozzarella, scarola condita con olive nere e pomodorini, bufala": "Mozzarella, escarole with black olives and cherry tomatoes, buffalo mozzarella"
+      }
+    };
+
+    // Menu dati
+    const menu = [
+      // Pizze Rosse
+      { nome: "Margherita", tipo: "rosse", prezzo_singola: "4,50€", prezzo_mezzo: "9,50€", descrizione: "Pomodoro, mozzarella, basilico", badge: "rosse" },
+      { nome: "Marinara", tipo: "rosse", prezzo_singola: "4,00€", prezzo_mezzo: "8,50€", descrizione: "Pomodoro, aglio, origano, olive, acciughe", badge: "rosse" },
+      { nome: "Napoletana", tipo: "rosse", prezzo_singola: "3,50€", prezzo_mezzo: "7,50€", descrizione: "Pomodoro, aglio, origano, olive nere", badge: "rosse" },
+      { nome: "Romana", tipo: "rosse", prezzo_singola: "5,00€", prezzo_mezzo: "10,50€", descrizione: "Pomodoro, mozzarella, origano, acciughe", badge: "rosse" },
+      { nome: "Capricciosa", tipo: "rosse", prezzo_singola: "6,00€", prezzo_mezzo: "11,50€", descrizione: "Pomodoro, mozzarella, prosciutto cotto, funghi, salsiccia", badge: "rosse" },
+      { nome: "Diavola", tipo: "rosse", prezzo_singola: "5,50€", prezzo_mezzo: "11,50€", descrizione: "Pomodoro, mozzarella, salame piccante", badge: "rosse" },
+      { nome: "Quattrostagioni", tipo: "rosse", prezzo_singola: "6,00€", prezzo_mezzo: "11,50€", descrizione: "Pomodoro, mozzarella, prosciutto cotto, salame", badge: "rosse" },
+      { nome: "Messicana", tipo: "rosse", prezzo_singola: "6,50€", prezzo_mezzo: "11,50€", descrizione: "Pomodoro, mozzarella, fagioli, salsiccia, pancetta, piccante", badge: "rosse" },
+      { nome: "Siciliana", tipo: "rosse", prezzo_singola: "6,00€", prezzo_mezzo: "11,50€", descrizione: "Pomodoro, mozzarella, melanzane, salsiccia, scaglie", badge: "rosse" },
+
+      // Pizze Bianche
+      { nome: "Ardire", tipo: "bianche", prezzo_singola: "6,50€", prezzo_mezzo: "12,50€", descrizione: "Mozzarella, pomodori di San Marzano, pesto", badge: "bianche" },
+      { nome: "Primavera", tipo: "bianche", prezzo_singola: "6,50€", prezzo_mezzo: "12,50€", descrizione: "Mozzarella, pomodorini, rucola, crudo, scaglie di parmigiano", badge: "bianche" },
+      { nome: "Croccopizza", tipo: "bianche", prezzo_singola: "6,00€", prezzo_mezzo: "11,50€", descrizione: "Mozzarella, salsiccia, crocchè", badge: "bianche" },
+      { nome: "Nonna Viola", tipo: "bianche", prezzo_singola: "6,50€", prezzo_mezzo: "12,50€", descrizione: "Mozzarella, funghi porcini, speck, scaglie di parmigiano", badge: "bianche" },
+      { nome: "SpaccaNapoli", tipo: "bianche", prezzo_singola: "6,00€", prezzo_mezzo: "11,50€", descrizione: "Mozzarella, salsiccia, uovo", badge: "bianche" },
+      { nome: "Annarè", tipo: "bianche", prezzo_singola: "6,50€", prezzo_mezzo: "12,50€", descrizione: "Provola, mortadella, crema e granella di noci, crema e granella di pistacchio", badge: "bianche" },
+      { nome: "Darius", tipo: "bianche", prezzo_singola: "6,50€", prezzo_mezzo: "12,50€", descrizione: "Mozzarella, porchetta, pancetta, funghi, patate al forno", badge: "bianche" },
+      { nome: "Sabrina", tipo: "bianche", prezzo_singola: "6,50€", prezzo_mezzo: "12,50€", descrizione: "Mozzarella, mascarpone, radicchio", badge: "bianche" },
+      { nome: "Olga", tipo: "bianche", prezzo_singola: "6,50€", prezzo_mezzo: "12,50€", descrizione: "Provola, rucola, speck, crema e granella di noci", badge: "bianche" },
+      { nome: "Fiore", tipo: "bianche", prezzo_singola: "6,50€", prezzo_mezzo: "12,50€", descrizione: "Mozzarella, mascarpone, fiori di zucca", badge: "bianche" },
+      { nome: "Monte bianco", tipo: "bianche", prezzo_singola: "6,50€", prezzo_mezzo: "12,50€", descrizione: "Mozzarella, panna, mais e prosciutto cotto", badge: "bianche" },
+      { nome: "Ortolana", tipo: "bianche", prezzo_singola: "6,50€", prezzo_mezzo: "12,50€", descrizione: "Mozzarella, melanzane, zucchine e peperoni", badge: "bianche" },
+
+      // Gusti speciali
+      { nome: "Irene", tipo: "speciali", prezzo_singola: "6,50€", prezzo_mezzo: "12,50€", descrizione: "Mozzarella, fiori di ricotta, granella e crema di pistacchi, limone grattugiato", badge: "speciali" },
+      { nome: "Samara", tipo: "speciali", prezzo_singola: "6,50€", prezzo_mezzo: "12,50€", descrizione: "Mozzarella, fior di ricotta, granella di pistacchio, glassa al balsamico", badge: "speciali" },
+      { nome: "Carmen", tipo: "speciali", prezzo_singola: "6,50€", prezzo_mezzo: "12,50€", descrizione: "Mozzarella, fior di ricotta, mortadella, crema e granella di pistacchio", badge: "speciali" },
+      { nome: "Zucca", tipo: "speciali", prezzo_singola: "6,50€", prezzo_mezzo: "12,50€", descrizione: "Mozzarella, zucca, salsiccia, pancetta, panna", badge: "speciali" },
+      { nome: "Marcos", tipo: "speciali", prezzo_singola: "6,50€", prezzo_mezzo: "12,50€", descrizione: "Mozzarella, zucchine, salsiccia, pancetta, panna", badge: "speciali" },
+      { nome: "Scarola", tipo: "speciali", prezzo_singola: "6,50€", prezzo_mezzo: "12,50€", descrizione: "Mozzarella, scarola condita con olive nere e pomodorini, bufala", badge: "speciali" }
+    ];
+
+    // Recupera lingua
+    const lang = localStorage.getItem('lang') || 'it';
+
+    // Applica traduzioni statiche (titolo, filtri)
+    function applyStaticTranslations() {
+      document.querySelectorAll("[data-i18n]").forEach(el => {
+        const key = el.getAttribute("data-i18n");
+        if (translations[lang][key]) {
+          el.textContent = translations[lang][key];
+        }
+      });
+    }
+
+    function renderMenu(filtro) {
+      const lista = document.getElementById('menu-lista');
+      lista.innerHTML = '';
+      const piattiFiltrati = filtro === 'tutte' ? menu : menu.filter(p => p.tipo === filtro);
+
+      piattiFiltrati.forEach(pizza => {
+        // badge tradotto
+        let badgeLabel = translations[lang]["badge_" + pizza.badge] || pizza.badge.toUpperCase();
+        // descrizione tradotta
+        let descLabel = translations[lang][pizza.descrizione] || pizza.descrizione;
+
+        lista.innerHTML += `
+          <div class="menu-item">
+            <div class="menu-badge">${badgeLabel}</div>
+            <div class="menu-item-content">
+              <div class="menu-nome">${pizza.nome}</div>
+              <div class="menu-prezzi">
+                <div class="prezzo-badge"><span class="prezzo-label">${translations[lang].prezzo_singola}</span><span class="prezzo-val">${pizza.prezzo_singola}</span></div>
+                <div class="prezzo-badge"><span class="prezzo-label">${translations[lang].prezzo_mezzo}</span><span class="prezzo-val">${pizza.prezzo_mezzo}</span></div>
+              </div>
+              <div class="menu-descrizione">${descLabel}</div>
+            </div>
+          </div>
+        `;
+      });
+    }
+
+    document.querySelectorAll('.filtro-btn').forEach(btn => {
+      btn.addEventListener('click', function () {
+        document.querySelectorAll('.filtro-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        renderMenu(btn.dataset.tipo);
+      });
+    });
+
+    applyStaticTranslations();
+    renderMenu('tutte');
+  </script>
+</body>
+</html>
